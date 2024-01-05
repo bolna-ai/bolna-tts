@@ -36,7 +36,7 @@ class CoquiTTSWrapper:
             device = torch.device("cpu")
 
 
-        config = XttsConfig()
+        config = XttsConfig(num_gpt_outputs = 32)
         xtts_base_path = os.getenv("XTTS_BASE_PATH")
         config.load_json(f"{xtts_base_path}config.json")
         self.model = Xtts.init_from_config(config)
@@ -80,12 +80,12 @@ class CoquiTTSWrapper:
         speaker_embedding = (torch.tensor(self.voices[voice]["speaker_embedding"]).unsqueeze(0).unsqueeze(-1))
         logger.info(f"Got speaker embeddings: {text}")
         gpt_cond_latent = (torch.tensor(self.voices[voice]["gpt_cond_latent"]).reshape((-1, 1024)).unsqueeze(0))
-        out = self.model.inference(text, language, gpt_cond_latent, speaker_embedding)
+        out = self.model.inference(text, language, gpt_cond_latent, speaker_embedding, speed = 1.3, top_p = 1, repetition_penalty = 2.5)
 
         audio_numpy = out["wav"]
         audio_numpy = np.interp(audio_numpy, (audio_numpy.min(), audio_numpy.max()), (-1, 1))
         audio_numpy = (audio_numpy * 32767).astype(np.int16)
         audio_buffer = io.BytesIO()
-        wavfile.write(audio_buffer, 22050, audio_numpy)  # 22050 is the sample rate, change if different
+        wavfile.write(audio_buffer, 22050, audio_numpy)
         raw_audio_bytes = audio_buffer.getvalue()
         return raw_audio_bytes
