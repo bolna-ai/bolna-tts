@@ -55,9 +55,12 @@ class TextPayload(BaseModel):
     language: Optional[str] = "en"
 
 coqui_voice_list = os.getenv("COQUI_VOICE_LIST").split(",") 
+currently_processing = False
 
 @app.websocket("/generate")
 async def websocket_endpoint(websocket: WebSocket):
+    global currently_processing
+
     await websocket.accept()
     input_queue = asyncio.Queue()
     async def listen_for_text():
@@ -67,28 +70,35 @@ async def websocket_endpoint(websocket: WebSocket):
                 logger.info(f"Received: {request}")
                 if request["model"] == "xtts":
                     input_queue.put_nowait(request)
+                    logger.info("Added to queue")
         except websockets.exceptions.ConnectionClosed as e:
             logger.info(f"Connection closed with code {e.code}")
 
-    async def send_audio():
+    async def generate_audio():
+        global currently_processing
         try:
             while True:
+                logger.info("Getting the next message from the queue")
                 request = await input_queue.get()
                 start_time = time.time()
                 i = 0 
+                logger.info(f"Starting new stream for {request}")
                 for chunk in tts_coqui.generate_stream(request["text"], request["language"], request["voice"]):
                     logger.info(f"Chunk {i} generation time {time.time() - start_time}")
                     await websocket.send_bytes(chunk)
-                    await asyncio.sleep(0.001)
                     logger.info(f"Chunk {i} Send time {time.time() - start_time}")
-                if input_queue.empty():
+                    i+=1
+                if "end_of_stream" in request and request["end_of_stream"]:
                     logger.info("entire text stream has audio generated, sending end of stream signal")
                     await websocket.send_bytes(b'\x00')
+                currently_processing = False
+                logger.info(f"Finished processing request with {request}")
+
         except websockets.exceptions.ConnectionClosed as e:
             logger.info(f"Connection closed with code {e.code}")
 
     try:
-        await asyncio.gather(listen_for_text(), send_audio())
+        await asyncio.gather(listen_for_text(), generate_audio())
     except Exception as e:
         logger.info(f"An error occurred: {e}")
 

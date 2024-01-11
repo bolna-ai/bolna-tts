@@ -86,6 +86,6 @@ class CoquiTTSWrapper:
         audio_numpy = np.interp(audio_numpy, (audio_numpy.min(), audio_numpy.max()), (-1, 1))
         audio_numpy = (audio_numpy * 32767).astype(np.int16)
         audio_buffer = io.BytesIO()
-        wavfile.write(audio_buffer, 22050, audio_numpy)
+        wavfile.write(audio_buffer, 24000, audio_numpy)
         raw_audio_bytes = audio_buffer.getvalue()
         return raw_audio_bytes
