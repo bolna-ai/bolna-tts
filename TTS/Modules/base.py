@@ -7,7 +7,7 @@ class TTS:
         self.rate = rate
         self.dtype = dtype
         self.lock = Lock() 
-    def systhesized(self):
+    def systhesized(self,text,out_sr):
         """use locks over here"""
         raise("systhesized function is not implemented")
     def resample(self,rate,wav):

@@ -12,14 +12,14 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.utils import weight_norm, remove_weight_norm, spectral_norm
 
-from StyleTTS2.Utils.ASR.models import ASRCNN
-from StyleTTS2.Utils.JDC.model import JDCNet
+from TTS.Modules.ReqModule.StyleTTS2.Utils.ASR.models import ASRCNN
+from TTS.Modules.ReqModule.StyleTTS2.Utils.JDC.model import JDCNet
 
-from StyleTTS2.Modules.diffusion.sampler import KDiffusion, LogNormalDistribution
-from StyleTTS2.Modules.diffusion.modules import Transformer1d, StyleTransformer1d
-from StyleTTS2.Modules.diffusion.diffusion import AudioDiffusionConditional
+from TTS.Modules.ReqModule.StyleTTS2.Modules.diffusion.sampler import KDiffusion, LogNormalDistribution
+from TTS.Modules.ReqModule.StyleTTS2.Modules.diffusion.modules import Transformer1d, StyleTransformer1d
+from TTS.Modules.ReqModule.StyleTTS2.Modules.diffusion.diffusion import AudioDiffusionConditional
 
-from StyleTTS2.Modules.discriminators import MultiPeriodDiscriminator, MultiResSpecDiscriminator, WavLMDiscriminator
+from TTS.Modules.ReqModule.StyleTTS2.Modules.discriminators import MultiPeriodDiscriminator, MultiResSpecDiscriminator, WavLMDiscriminator
 
 from munch import Munch
 import yaml
@@ -615,7 +615,7 @@ def build_model(args, text_aligner, pitch_extractor, bert):
     assert args.decoder.type in ['istftnet', 'hifigan'], 'Decoder type unknown'
     
     if args.decoder.type == "istftnet":
-        from StyleTTS2.Modules.istftnet import Decoder
+        from .Modules.istftnet import Decoder
         decoder = Decoder(dim_in=args.hidden_dim, style_dim=args.style_dim, dim_out=args.n_mels,
                 resblock_kernel_sizes = args.decoder.resblock_kernel_sizes,
                 upsample_rates = args.decoder.upsample_rates,

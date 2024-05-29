@@ -9,7 +9,7 @@ from . import punctuation, symbols
 
 
 from num2words import num2words
-from melo.text.ko_dictionary import english_dictionary, etc_dictionary
+from TTS.Modules.ReqModule.melo.text.ko_dictionary import english_dictionary, etc_dictionary
 from anyascii import anyascii
 from jamo import hangul_to_jamo
 

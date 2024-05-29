@@ -1,6 +1,6 @@
 import os
 import click
-from melo.api import TTS
+from TTS.Modules.ReqModule.melo.api import TTS
 
     
     

@@ -15,13 +15,12 @@ import numpy as np
 import torchaudio
 from nltk.tokenize import word_tokenize
 import phonemizer
-from StyleTTS2.models import *
-from StyleTTS2.utils import *
-from StyleTTS2.text_utils import TextCleaner
-from StyleTTS2.Modules.diffusion.sampler import DiffusionSampler, ADPM2Sampler, KarrasSchedule
-from StyleTTS2.Utils.PLBERT.util import load_plbert
+from TTS.Modules.ReqModule.StyleTTS2.models import *
+from TTS.Modules.ReqModule.StyleTTS2.utils import *
+from TTS.Modules.ReqModule.StyleTTS2.text_utils import TextCleaner
+from TTS.Modules.ReqModule.StyleTTS2.Modules.diffusion.sampler import DiffusionSampler, ADPM2Sampler, KarrasSchedule
+from TTS.Modules.ReqModule.StyleTTS2.Utils.PLBERT.util import load_plbert
 import os
-
 
 class StyleTTS:
     def __init__(self):
@@ -33,8 +32,7 @@ class StyleTTS:
         self.global_phonemizer = phonemizer.backend.EspeakBackend(language='en-us', preserve_punctuation=True, with_stress=True, words_mismatch='ignore')
         self.textclenaer = TextCleaner()
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        self.path = os.path.abspath("")+"/StyleTTS2/"
-        
+        self.path = os.path.abspath("")+"/TTS/Modules/ReqModule/StyleTTS2/"
         ASR_config = self.path + self.config.get('ASR_config', False)
         ASR_path = self.path + self.config.get('ASR_path', False)
         text_aligner = load_ASR_models(ASR_path, ASR_config)
