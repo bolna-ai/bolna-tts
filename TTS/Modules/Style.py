@@ -33,6 +33,6 @@ class StyleTTS_SYNC(TTS):
         file = io.BytesIO()
         write(file,payload.sr,data)
         process_time = time.time() - __t
-        yield {'audio': b64encode(file.read()).decode(),'sr':payload.sr,"time":process_time}
         logger.info(f"StyleTTS systhesized release the lock and time take {process_time}")
         self.lock.release()
+        return {'audio': b64encode(file.read()).decode(),'sr':payload.sr,"time":process_time}

@@ -36,6 +36,6 @@ class MeloTTS_SYNC(TTS):
         file = io.BytesIO()
         write(file,config.sr,audio)
         process_time = time.time() - __t
-        yield {'audio': b64encode(file.read()).decode(),'sr':config.sr,"time":process_time}
         self.lock.release()
+        return {'audio': b64encode(file.read()).decode(),'sr':config.sr,"time":process_time}
         

@@ -42,7 +42,7 @@ def tts_http(response:TTS_HTTP):
             )
     print(response)
     # config = TTS_Orchestrator.getModelConfig(response.model).parse_obj(response.model_config)
-    return next(model.systhesized(response.config))
+    return model.systhesized(response.config)
     # model
 if __name__ == "__main__":
     uvicorn.run("Server:app",host='0.0.0.0',port=4680,reload=True)
