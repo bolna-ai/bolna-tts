@@ -29,7 +29,6 @@ bibtexparser==2.0.0b7
 billiard==4.2.0
 bitsandbytes==0.43.1
 bleach==6.1.0
--e git+https://github.com/bolna-ai/bolna.git@f3a0aabf4913960bb96a8e5ec2ed88afbf5ae386#egg=bolna
 boto3==1.34.113
 botocore==1.34.113
 cached-property==1.5.2
@@ -52,7 +51,6 @@ colorlog==6.8.2
 contourpy==1.2.1
 csvw==3.3.0
 ctranslate2==4.1.0
--e git+https://github.com/anshjoseph/WhisperCustom.git@ad11b9011a68862c989ffa21a92e45f2d196d42d#egg=CustomWhisper
 cycler==0.12.1
 Cython==3.0.10
 datadog-api-client==2.22.0
@@ -303,7 +301,6 @@ websocket-client==1.7.0
 websockets==12.0
 Werkzeug==3.0.3
 whisper-timestamped==1.15.4
--e git+https://github.com/anshjoseph/WhisperCustom.git@ad11b9011a68862c989ffa21a92e45f2d196d42d#egg=WhisperLive
 wrapt==1.16.0
 wtpsplit==1.3.0
 yarg==0.1.9
