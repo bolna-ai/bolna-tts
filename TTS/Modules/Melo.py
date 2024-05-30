@@ -25,17 +25,17 @@ class MeloTTS_SYNC(TTS):
         noise_scale_w:float = 0.8
         speed:float= 1.0
 
-    def systhesized(self,out_sr:int,text:str,speaker_id:str,sdp_ratio:float=0.2,noise_scale:float=0.6,noise_scale_w:float=0.8,speed:float=1.0):
+    def systhesized(self,config:Config):
         self.lock.acquire()
         logger.info(f"")
         __t = time.time()
-        audio, sr = self.model.synthesize(text,self.speaker_ids[speaker_id],sdp_ratio,sdp_ratio,noise_scale,noise_scale_w,speed)
+        audio, sr = self.model.synthesize(config.text,self.speaker_ids[config.speaker_id],config.sdp_ratio,config.sdp_ratio,config.noise_scale,config.noise_scale_w,config.speed)
         self.rate = sr
         audio = torch.from_numpy(audio)
-        audio = self.resample(out_sr,audio)
+        audio = self.resample(config.sr,audio)
         file = io.BytesIO()
-        write(file,out_sr,audio)
+        write(file,config.sr,audio)
         process_time = time.time() - __t
-        yield {'audio': b64encode(file.read()).decode(),'sr':out_sr,"time":process_time}
+        yield {'audio': b64encode(file.read()).decode(),'sr':config.sr,"time":process_time}
         self.lock.release()
         
