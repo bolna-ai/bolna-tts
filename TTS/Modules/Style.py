@@ -29,7 +29,7 @@ class StyleTTS_SYNC(TTS):
         __t = time.time()
         data = self.model.inference(payload.text,diffusion_steps=payload.diffusion_steps,embedding_scale=payload.embedding_scale)
         data = self.resample(payload.sr,data)
-        data = data.cpu().numpy()
+        data = data.detach().numpy()
         file = io.BytesIO()
         write(file,payload.sr,data)
         process_time = time.time() - __t
