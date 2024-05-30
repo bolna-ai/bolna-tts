@@ -18,7 +18,7 @@ class MeloTTS_SYNC(TTS):
     
     class Config(BaseModel):
         text:str
-        speacker_id:str
+        specker_id:str
         sr:int
         sdp_ratio:float = 0.2
         noise_scale:float = 0.6
@@ -29,7 +29,7 @@ class MeloTTS_SYNC(TTS):
         self.lock.acquire()
         logger.info(f"")
         __t = time.time()
-        audio, sr = self.model.synthesize(config.text,self.speaker_ids[config.speaker_id],config.sdp_ratio,config.sdp_ratio,config.noise_scale,config.noise_scale_w,config.speed)
+        audio, sr = self.model.synthesize(config.text,self.speaker_ids[config.specker_id],config.sdp_ratio,config.sdp_ratio,config.noise_scale,config.noise_scale_w,config.speed)
         self.rate = sr
         audio = torch.from_numpy(audio)
         audio = self.resample(config.sr,audio)
