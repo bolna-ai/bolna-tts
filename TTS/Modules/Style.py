@@ -24,6 +24,7 @@ class StyleTTS_SYNC(TTS):
 
     def systhesized(self,payload:Config):
         self.lock.acquire()
+        torch.cuda.empty_cache()
         logger.info(f"StyleTTS systhesized {payload.text} and out wav of sample rate {payload.sr}")
         logger.info(f"with config: [diffusion_steps: {payload.diffusion_steps} embedding_scale: {payload.embedding_scale}]")
         __t = time.time()

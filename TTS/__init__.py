@@ -17,8 +17,8 @@ class TTSOrchestrator:
     def __init__(self) -> None:
         logger.info("starting TTS Orchestrator")
         self.__TTS_PROVIDER:Dict[str:TTS_PROVIDER] = dict()
-        self.__RegisterModel(DummyTTS_SYNC)
-        self.__RegisterModel(MeloTTS_SYNC)
+        # self.__RegisterModel(DummyTTS_SYNC)
+        # self.__RegisterModel(MeloTTS_SYNC)
         self.__RegisterModel(StyleTTS_SYNC)
         logger.info(f"models loaded: {list(self.__TTS_PROVIDER.keys())}")
         logger.info("TTS Orchestrator is started")
