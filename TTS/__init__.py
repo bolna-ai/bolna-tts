@@ -14,12 +14,13 @@ class TTS_PROVIDER:
         self.model:TTS = model
         self.modelclass = modelclass.Config
 class TTSOrchestrator:
-    def __init__(self) -> None:
+    def __init__(self,Debug=False) -> None:
         logger.info("starting TTS Orchestrator")
         self.__TTS_PROVIDER:Dict[str:TTS_PROVIDER] = dict()
-        # self.__RegisterModel(DummyTTS_SYNC)
-        # self.__RegisterModel(MeloTTS_SYNC)
-        self.__RegisterModel(StyleTTS_SYNC)
+        self.__RegisterModel(MeloTTS_SYNC)
+        if not Debug:
+            self.__RegisterModel(DummyTTS_SYNC)
+            self.__RegisterModel(StyleTTS_SYNC)
         logger.info(f"models loaded: {list(self.__TTS_PROVIDER.keys())}")
         logger.info("TTS Orchestrator is started")
     def __RegisterModel(self,tts):
